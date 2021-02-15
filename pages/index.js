@@ -39,6 +39,10 @@ export async function getStaticProps({ preview }) {
             }
           }
         }
+        logo: upload(filter: {id: {eq: "7987485"}}) {
+          id
+          url(imgixParams: {h: "100"})
+        }
       }
 
       ${metaTagsFragment}
@@ -65,7 +69,7 @@ export async function getStaticProps({ preview }) {
 
 export default function Index({ subscription }) {
   const {
-    data: { allPosts, site, blog },
+    data: { allPosts, site, blog, logo },
   } = useQuerySubscription(subscription);
 
   const heroPost = allPosts[0];
@@ -77,7 +81,7 @@ export default function Index({ subscription }) {
       <Layout preview={subscription.preview}>
         <Head>{renderMetaTags(metaTags)}</Head>
         <Container>
-          <Intro />
+          <Intro logo={logo} />
           {heroPost && (
             <HeroPost
               title={heroPost.title}

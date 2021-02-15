@@ -2,6 +2,7 @@ import Head from "next/head";
 import { renderMetaTags, useQuerySubscription } from "react-datocms";
 import Container from "../../components/container";
 import Header from "../../components/header";
+import Intro from "../../components/intro";
 import Layout from "../../components/layout";
 import MoreStories from "../../components/more-stories";
 import PostBody from "../../components/post-body";
@@ -69,6 +70,11 @@ export async function getStaticProps({ params, preview = false }) {
             }
           }
         }
+
+        logo: upload(filter: {id: {eq: "7987485"}}) {
+          id
+          url(imgixParams: {h: "100"})
+        }
       }
 
       ${responsiveImageFragment}
@@ -98,7 +104,7 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Post({ subscription, preview }) {
   const {
-    data: { site, post, morePosts },
+    data: { site, post, morePosts, logo },
   } = useQuerySubscription(subscription);
 
   const metaTags = post.seo.concat(site.favicon);
@@ -107,7 +113,7 @@ export default function Post({ subscription, preview }) {
     <Layout preview={preview}>
       <Head>{renderMetaTags(metaTags)}</Head>
       <Container>
-        <Header />
+        <Intro logo={logo} />
         <article>
           <PostHeader
             title={post.title}
